@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kerio Valley Nation | Member Registration</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --deep-green: #002e1f;
+      --ceremonial-gold: #c9a227;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Merriweather', serif;
+      background: #f6f6f6;
+      color: #222;
+    }
+
+    header {
+      background: var(--deep-green);
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+
+    header img {
+      max-width: 120px;
+      margin-bottom: 1rem;
+    }
+
+    section {
+      max-width: 900px;
+      margin: 3rem auto;
+      background: white;
+      padding: 2.5rem;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    h1, h2 {
+      color: var(--deep-green);
+    }
+
+    .gold-divider {
+      width: 120px;
+      height: 4px;
+      background: var(--ceremonial-gold);
+      margin: 1rem auto 2rem;
+    }
+
+    p {
+      line-height: 1.7;
+    }
+
+    form {
+      display: grid;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    input, select, textarea, button {
+      padding: 0.8rem;
+      font-family: inherit;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background: var(--deep-green);
+      color: white;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #014f35;
+    }
+
+    .support {
+      background: #faf8f2;
+      border-left: 5px solid var(--ceremonial-gold);
+      padding: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .counter {
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    .counter h2 {
+      margin-bottom: 0.5rem;
+    }
+
+    #count {
+      font-size: 3rem;
+      color: var(--ceremonial-gold);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="/logo.png" alt="Kerio Valley Nation Logo">
+  <h1>Kerio Valley Nation</h1>
+  <p>Member Registration • United Polity • Civic Support</p>
+</header>
+
+<section>
+  <h2>National Membership Registration</h2>
+  <div class="gold-divider"></div>
+
+  <p>
+    The <strong>Kerio Valley Nation</strong> invites citizens, supporters, and allies to formally
+    register as members of a united polity. This registration affirms commitment to
+    structured governance, national identity, and peaceful civic participation.
+  </p>
+
+  <div class="support">
+    <strong>Electoral Support Notice:</strong>
+    <p>
+      Registered members may be called upon to support upcoming national and regional
+      elections through civic engagement, advocacy, and lawful participation.
+    </p>
+  </div>
+
+  <!-- Netlify Form -->
+  <form name="kvn-membership" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+    <input type="hidden" name="form-name" value="kvn-membership">
+    <p hidden>
+      <label>Don’t fill this out: <input name="bot-field"></label>
+    </p>
+
+    <input type="text" name="full_name" placeholder="Full Name" required>
+    <input type="email" name="email" placeholder="Email Address" required>
+    <select name="role" required>
+      <option value="">Select Role</option>
+      <option>Citizen</option>
+      <option>Supporter</option>
+      <option>Volunteer</option>
+      <option>Investor</option>
+    </select>
+    <textarea name="message" rows="4" placeholder="Why do you support Kerio Valley Nation?"></textarea>
+
+    <button type="submit" onclick="incrementCount()">Register & Pledge Support</button>
+  </form>
+
+  <div class="counter">
+    <h2>Registered Members</h2>
+    <div id="count">0</div>
+    <button onclick="downloadImage()">Download Registration Count</button>
+  </div>
+</section>
+
+<footer>
+  © Kerio Valley Nation • United Polity & Civic Development
+</footer>
+
+<script>
+  let count = localStorage.getItem('kvnCount')
+    ? parseInt(localStorage.getItem('kvnCount'))
+    : 0;
+
+  document.getElementById('count').textContent = count;
+
+  function incrementCount() {
+    count += 1;
+    localStorage.setItem('kvnCount', count);
+    document.getElementById('count').textContent = count;
+  }
+
+  function downloadImage() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 600;
+    canvas.height = 300;
+    const ctx = canvas.getContext('2d');
+
+    ctx.fillStyle = '#002e1f';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = '#c9a227';
+    ctx.font = 'bold 36px Merriweather';
+    ctx.textAlign = 'center';
+    ctx.fillText('Kerio Valley Nation', 300, 80);
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '28px Merriweather';
+    ctx.fillText('Registered Members', 300, 150);
+
+    ctx.font = 'bold 48px Merriweather';
+    ctx.fillText(count.toString(), 300, 220);
+
+    const link = document.createElement('a');
+    link.download = 'kvn-registration-count.png';
+    link.href = canvas.toDataURL();
+    link.click();
+  }
+</script>
+
+</body>
+</html>
