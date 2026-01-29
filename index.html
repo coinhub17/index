@@ -145,7 +145,7 @@
 
     <input type="text" name="full_name" placeholder="Full Name" required>
     <input type="email" name="email" placeholder="Email Address" required>
-    <input type="text" name="idno" placeholder=" ID NUMBER" required>
+    <input type="text" name="id_number" placeholder="National ID Number" required>
     <select name="role" required>
       <option value="">Select Role</option>
       <option>Citizen</option>
@@ -166,11 +166,12 @@
   <div class="counter">
     <h2>Registered Members</h2>
     <div id="count">0</div>
-    <button onclick="downloadImage()">Download Registration Count</button>
-  </div>
-  <div id="admin" style="display:none;">
-    <input type="number" id="adminInput" placeholder="Set total">
-    <button onclick="setCount()">Update</button>
+
+    <!-- Hidden Admin Panel -->
+    <div id="admin-panel" style="display:none; margin-top:1.5rem;">
+      <input type="number" id="adminInput" placeholder="Admin: set total submissions" style="max-width:260px;">
+      <button type="button" onclick="setAdminCount()">Update Total</button>
+    </div>
   </div>
 </section>
 
@@ -179,27 +180,51 @@
 </footer>
 
 <script>
-  let count = 0;
-  document.getElementById('count').innerText = count;
+  let count = localStorage.getItem('kvnCount')
+    ? parseInt(localStorage.getItem('kvnCount'))
+    : 0;
 
-  // Update count manually
-  function setCount() {
+  document.getElementById('count').textContent = count;
+
+  function incrementCount() {
+    count += 1;
+    localStorage.setItem('kvnCount', count);
+    document.getElementById('count').textContent = count;
+  }
+
+  function setAdminCount() {
     const value = document.getElementById('adminInput').value;
-    if (value !== '') {
+    if (value !== '' && !isNaN(value)) {
       count = parseInt(value);
-      document.getElementById('count').innerText = count;
+      localStorage.setItem('kvnCount', count);
+      document.getElementById('count').textContent = count;
     }
   }
 
-  // Show admin panel with Ctrl + Alt + A
-  document.addEventListener('keydown', function (e) {
+  // Reveal admin panel and download on Ctrl+Alt+A
+  document.addEventListener('keydown', function(e) {
     if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'a') {
-      const admin = document.getElementById('admin');
-      admin.style.display = admin.style.display === 'none' ? 'block' : 'none';
+      const panel = document.getElementById('admin-panel');
+      panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+
+      // Only admin can download
+      let btn = document.getElementById('downloadBtn');
+      if (!btn) {
+        btn = document.createElement('button');
+        btn.id = 'downloadBtn';
+        btn.style.display = 'inline-block';
+        btn.style.marginTop = '0.5rem';
+        btn.textContent = 'Download Registration Count';
+        btn.onclick = downloadImage;
+        document.querySelector('.counter').appendChild(btn);
+      } else {
+        btn.style.display = 'inline-block';
+      }
     }
   });
 
   function downloadImage() {
+    // Admin-only download
     const canvas = document.createElement('canvas');
     canvas.width = 600;
     canvas.height = 300;
