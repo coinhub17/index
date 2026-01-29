@@ -168,6 +168,10 @@
     <div id="count">0</div>
     <button onclick="downloadImage()">Download Registration Count</button>
   </div>
+  <div id="admin" style="display:none;">
+    <input type="number" id="adminInput" placeholder="Set total">
+    <button onclick="setCount()">Update</button>
+  </div>
 </section>
 
 <footer>
@@ -175,17 +179,25 @@
 </footer>
 
 <script>
-  let count = localStorage.getItem('kvnCount')
-    ? parseInt(localStorage.getItem('kvnCount'))
-    : 0;
+  let count = 0;
+  document.getElementById('count').innerText = count;
 
-  document.getElementById('count').textContent = count;
-
-  function incrementCount() {
-    count += 1;
-    localStorage.setItem('kvnCount', count);
-    document.getElementById('count').textContent = count;
+  // Update count manually
+  function setCount() {
+    const value = document.getElementById('adminInput').value;
+    if (value !== '') {
+      count = parseInt(value);
+      document.getElementById('count').innerText = count;
+    }
   }
+
+  // Show admin panel with Ctrl + Alt + A
+  document.addEventListener('keydown', function (e) {
+    if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'a') {
+      const admin = document.getElementById('admin');
+      admin.style.display = admin.style.display === 'none' ? 'block' : 'none';
+    }
+  });
 
   function downloadImage() {
     const canvas = document.createElement('canvas');
