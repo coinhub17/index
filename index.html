@@ -40,6 +40,10 @@
       border-radius: 10px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.08);
     }
+    .admin-panel {
+      display: none !important;
+    }
+
 
     h1, h2 {
       color: var(--deep-green);
@@ -168,7 +172,7 @@
     <div id="count">0</div>
 
     <!-- Hidden Admin Panel (Ctrl + Alt + A) -->
-    
+    <div id="admin-panel" class="admin-panel">
       <input type="number" id="adminCount" placeholder="Admin: set official total" style="max-width:260px;">
       <button type="button" onclick="setAdminCount()">Set Total</button>
     </div>
