@@ -137,7 +137,7 @@
   </div>
 
   <!-- Netlify Form -->
-  <form name="kvn-membership" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+  <form name="kvn-membership" method="POST" action="/success.html" data-netlify="true" netlify-honeypot="bot-field">
     <input type="hidden" name="form-name" value="kvn-membership">
     <p hidden>
       <label>Don’t fill this out: <input name="bot-field"></label>
@@ -157,31 +157,9 @@
     <button type="submit" onclick="incrementCount()">Register & Pledge Support</button>
   </form>
 
-  <div id="success-message" style="display:none; margin-top:2rem; padding:1.5rem; background:#f0f7f4; border-left:5px solid #c9a227;">
-    <strong>Registration Successful.</strong>
-    <p>Your membership and civic support have been recorded under the Kerio Valley Nation united polity.</p>
-  </div>
-
   <div class="counter">
     <h2>Registered Members</h2>
     <div id="count">0</div>
-
-    <!-- Hidden Admin Panel (Ctrl + Alt + A) -->
-    <div id="admin-panel" style="display:none; margin-top:1.5rem;">
-      <input type="number" id="adminCount" placeholder="Admin: set total submissions" style="max-width:260px;">
-      <button type="button" onclick="setAdminCount()">Update Total</button>
-    </div>
-
-    <button style="margin-top:1rem;" onclick="downloadImage()">Download Registration Count</button>
-  </div>
-
-    <div style="margin-top:1.5rem;">
-      <input type="number" id="adminCount" placeholder="Admin: set total submissions" style="max-width:260px;">
-      <button type="button" onclick="setAdminCount()">Update Total</button>
-    </div>
-
-    <button style="margin-top:1rem;" onclick="downloadImage()">Download Registration Count</button>
-  </div>
     <button onclick="downloadImage()">Download Registration Count</button>
   </div>
 </section>
@@ -202,31 +180,6 @@
     localStorage.setItem('kvnCount', count);
     document.getElementById('count').textContent = count;
   }
-
-  function setAdminCount() {
-    const adminValue = document.getElementById('adminCount').value;
-    if (adminValue !== '' && !isNaN(adminValue)) {
-      count = parseInt(adminValue);
-      localStorage.setItem('kvnCount', count);
-      document.getElementById('count').textContent = count;
-    }
-  }
-
-  function setAdminCount() {
-    const adminValue = document.getElementById('adminCount').value;
-    if (adminValue !== '' && !isNaN(adminValue)) {
-      count = parseInt(adminValue);
-      localStorage.setItem('kvnCount', count);
-      document.getElementById('count').textContent = count;
-    }
-  }
-
-  document.addEventListener('keydown', function (e) {
-    if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'a') {
-      const panel = document.getElementById('admin-panel');
-      panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
-    }
-  });
 
   function downloadImage() {
     const canvas = document.createElement('canvas');
@@ -255,10 +208,6 @@
     link.click();
   }
 </script>
-
-</body>
-</html>
-
 
 </body>
 </html>
