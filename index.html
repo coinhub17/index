@@ -170,12 +170,16 @@
   <div class="counter">
     <h2>Registered Members</h2>
     <div id="count">0</div>
-
-    <!-- Hidden Admin Panel (Ctrl + Alt + A) -->
-    <div id="admin-panel" class="admin-panel">
-      <input type="number" id="adminCount" placeholder="Admin: set official total" style="max-width:260px;">
+    <div id="admin-panel" class="admin-panel" style="margin-top:1.5rem;">
+      <input
+        type="number"
+        id="adminCount"
+        placeholder="Admin: set official total"
+        style="max-width:260px;"
+        >
       <button type="button" onclick="setAdminCount()">Set Total</button>
     </div>
+
 
     <button style="margin-top:1rem;" onclick="downloadImage()">Download Registration Count</button>
   </div>
@@ -199,23 +203,19 @@
   let count = 0;
   document.getElementById('count').textContent = count;
 
-  function incrementCount() {
-    // count is admin-controlled only
-    document.getElementById('success-message').style.display = 'block';
-  }
-
   function setAdminCount() {
     const adminValue = document.getElementById('adminCount').value;
     if (adminValue !== '' && !isNaN(adminValue)) {
-      count = parseInt(adminValue);
+      count = parseInt(adminValue, 10);
       document.getElementById('count').textContent = count;
     }
   }
 
-  document.addEventListener('keydown', function (e) {('keydown', function (e) {
+  document.addEventListener('keydown', function (e) {
     if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'r') {
       const panel = document.getElementById('admin-panel');
-      panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+      panel.style.display =
+        panel.style.display === 'block' ? 'none' : 'block';
     }
   });
 
