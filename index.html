@@ -145,7 +145,6 @@
 
     <input type="text" name="full_name" placeholder="Full Name" required>
     <input type="email" name="email" placeholder="Email Address" required>
-    <input type="text" name="id_number" placeholder="National ID Number" required>
     <select name="role" required>
       <option value="">Select Role</option>
       <option>Citizen</option>
@@ -166,6 +165,23 @@
   <div class="counter">
     <h2>Registered Members</h2>
     <div id="count">0</div>
+
+    <!-- Hidden Admin Panel (Ctrl + Alt + A) -->
+    <div id="admin-panel" style="display:none; margin-top:1.5rem;">
+      <input type="number" id="adminCount" placeholder="Admin: set total submissions" style="max-width:260px;">
+      <button type="button" onclick="setAdminCount()">Update Total</button>
+    </div>
+
+    <button style="margin-top:1rem;" onclick="downloadImage()">Download Registration Count</button>
+  </div>
+
+    <div style="margin-top:1.5rem;">
+      <input type="number" id="adminCount" placeholder="Admin: set total submissions" style="max-width:260px;">
+      <button type="button" onclick="setAdminCount()">Update Total</button>
+    </div>
+
+    <button style="margin-top:1rem;" onclick="downloadImage()">Download Registration Count</button>
+  </div>
     <button onclick="downloadImage()">Download Registration Count</button>
   </div>
 </section>
@@ -186,6 +202,31 @@
     localStorage.setItem('kvnCount', count);
     document.getElementById('count').textContent = count;
   }
+
+  function setAdminCount() {
+    const adminValue = document.getElementById('adminCount').value;
+    if (adminValue !== '' && !isNaN(adminValue)) {
+      count = parseInt(adminValue);
+      localStorage.setItem('kvnCount', count);
+      document.getElementById('count').textContent = count;
+    }
+  }
+
+  function setAdminCount() {
+    const adminValue = document.getElementById('adminCount').value;
+    if (adminValue !== '' && !isNaN(adminValue)) {
+      count = parseInt(adminValue);
+      localStorage.setItem('kvnCount', count);
+      document.getElementById('count').textContent = count;
+    }
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'a') {
+      const panel = document.getElementById('admin-panel');
+      panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+    }
+  });
 
   function downloadImage() {
     const canvas = document.createElement('canvas');
@@ -214,6 +255,10 @@
     link.click();
   }
 </script>
+
+</body>
+</html>
+
 
 </body>
 </html>
