@@ -170,17 +170,14 @@
 </footer>
 
 <script>
-  let count = localStorage.getItem('kvnCount')
-    ? parseInt(localStorage.getItem('kvnCount'))
-    : 0;
+async function loadCount() {
+  const res = await fetch('/.netlify/functions/count');
+  const data = await res.json();
+  document.getElementById('count').textContent = data.count;
+  window.kvnCount = data.count;
+}
 
-  document.getElementById('count').textContent = count;
-
-  function incrementCount() {
-    count += 1;
-    localStorage.setItem('kvnCount', count);
-    document.getElementById('count').textContent = count;
-  }
+loadCount();
 
   function downloadImage() {
     const canvas = document.createElement('canvas');
@@ -201,7 +198,7 @@
     ctx.fillText('Registered Members', 300, 150);
 
     ctx.font = 'bold 48px Merriweather';
-    ctx.fillText(count.toString(), 300, 220);
+    ctx.fillText(window.kvnCount.toString(), 300, 220);
 
     const link = document.createElement('a');
     link.download = 'kvn-registration-count.png';
