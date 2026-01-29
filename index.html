@@ -137,7 +137,7 @@
   </div>
 
   <!-- Netlify Form -->
-  <form name="kvn-membership" method="POST" action="/success.html" data-netlify="true" netlify-honeypot="bot-field">
+  <form name="kvn-membership" method="POST" data-netlify="true" netlify-honeypot="bot-field">
     <input type="hidden" name="form-name" value="kvn-membership">
     <p hidden>
       <label>Don’t fill this out: <input name="bot-field"></label>
@@ -145,7 +145,6 @@
 
     <input type="text" name="full_name" placeholder="Full Name" required>
     <input type="email" name="email" placeholder="Email Address" required>
-    <input type="text" name="id_number" placeholder="National ID Number" required>
     <select name="role" required>
       <option value="">Select Role</option>
       <option>Citizen</option>
@@ -157,6 +156,11 @@
 
     <button type="submit" onclick="incrementCount()">Register & Pledge Support</button>
   </form>
+
+  <div id="success-message" style="display:none; margin-top:2rem; padding:1.5rem; background:#f0f7f4; border-left:5px solid #c9a227;">
+    <strong>Registration Successful.</strong>
+    <p>Your membership and civic support have been recorded under the Kerio Valley Nation united polity.</p>
+  </div>
 
   <div class="counter">
     <h2>Registered Members</h2>
@@ -170,14 +174,17 @@
 </footer>
 
 <script>
-async function loadCount() {
-  const res = await fetch('/.netlify/functions/count');
-  const data = await res.json();
-  document.getElementById('count').textContent = data.count;
-  window.kvnCount = data.count;
-}
+  let count = localStorage.getItem('kvnCount')
+    ? parseInt(localStorage.getItem('kvnCount'))
+    : 0;
 
-loadCount();
+  document.getElementById('count').textContent = count;
+
+  function incrementCount() {
+    count += 1;
+    localStorage.setItem('kvnCount', count);
+    document.getElementById('count').textContent = count;
+  }
 
   function downloadImage() {
     const canvas = document.createElement('canvas');
@@ -198,7 +205,7 @@ loadCount();
     ctx.fillText('Registered Members', 300, 150);
 
     ctx.font = 'bold 48px Merriweather';
-    ctx.fillText(window.kvnCount.toString(), 300, 220);
+    ctx.fillText(count.toString(), 300, 220);
 
     const link = document.createElement('a');
     link.download = 'kvn-registration-count.png';
@@ -209,3 +216,4 @@ loadCount();
 
 </body>
 </html>
+
